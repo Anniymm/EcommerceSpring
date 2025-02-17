@@ -3,6 +3,7 @@ package com.commerces.commerces.config;
 import com.commerces.commerces.filters.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -45,8 +46,11 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/refresh-token", "/auth/logout").permitAll() // ✅ Add refresh-token
-                        .requestMatchers("/secure/**").authenticated()
+                        .requestMatchers("/auth/login", "/auth/register", "/auth/refresh-token", "/auth/logout").permitAll() // Allow public access
+                        .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()  // Allow anyone to view products
+                        .requestMatchers(HttpMethod.POST, "/api/products/**").authenticated() // Require authentication to add a product
+                        .requestMatchers(HttpMethod.PUT, "/api/products/**").authenticated() // Require authentication to update a product
+                        .requestMatchers(HttpMethod.DELETE, "/api/products/**").authenticated() // Require authentication to delete a product
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
