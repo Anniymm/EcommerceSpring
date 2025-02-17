@@ -3,6 +3,7 @@ package com.commerces.commerces.controllers;
 import com.commerces.commerces.models.Product;
 import com.commerces.commerces.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,25 +16,27 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    // Endpoint to get all products
+    // ✅ Anyone can view products
     @GetMapping
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    // Endpoint to get product by ID
+    // ✅ Anyone can view products By Id
     @GetMapping("/{id}")
     public Optional<Product> getProductById(@PathVariable int id) {
         return productService.getProductById(id);
     }
 
-    // Endpoint to create or update a product
+    // ✅ Only authenticated users can add products
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public Product createOrUpdateProduct(@RequestBody Product product) {
         return productService.saveOrUpdateProduct(product);
     }
 
-    // Endpoint to delete a product
+    // ✅ Only authenticated users can delete products
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable int id) {
         productService.deleteProduct(id);
