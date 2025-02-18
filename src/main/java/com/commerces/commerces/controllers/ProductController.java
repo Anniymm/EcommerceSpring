@@ -35,6 +35,12 @@ public class ProductController {
         return productService.saveOrUpdateProduct(product);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping
+    public Product updateProduct(@RequestBody Product product) {
+        return productService.saveOrUpdateProduct(product);
+    }
+
     // ✅ Only authenticated users can delete products
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{id}")
