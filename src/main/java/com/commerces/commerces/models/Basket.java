@@ -22,7 +22,7 @@ public class Basket {
 
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     //erti cali basketi sheicavs sxvadasva products amitom minda onetomany
-    private List<Product> products;
+    private List<BasketItem> basketItems;
 
 
     //no-argument (default) constructor
