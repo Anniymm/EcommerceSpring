@@ -8,16 +8,17 @@ import com.commerces.commerces.repository.BasketRepository;
 import com.commerces.commerces.repository.ProductRepository;
 import com.commerces.commerces.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+
 @Service
 public class BasketService {
     @Autowired
     private BasketRepository basketRepository;
+
     @Autowired
     private ProductRepository productRepository;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -59,12 +60,18 @@ public class BasketService {
     }
 
 
-    // ✅ Clear Basket (After Placing Order)
     public void clearBasket(Long userId) {
-        Basket basket = getOrCreateBasket(userId);
+        Basket basket = basketRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Basket not found for user ID: " + userId));
+
+        // ✅ Clear the basket items
         basket.getBasketItems().clear();
+
+        // ✅ Save changes to persist the deletion
         basketRepository.save(basket);
     }
+
+
 
     //✅ Get Basket Items
     public List<BasketItem> getBasketItems(Long userId) {

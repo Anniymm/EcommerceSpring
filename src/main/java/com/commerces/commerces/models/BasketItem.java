@@ -1,5 +1,8 @@
 package com.commerces.commerces.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +18,7 @@ public class BasketItem {
 
     @ManyToOne
     @JoinColumn(name = "basket_id", nullable = false)
+    @JsonBackReference //json responshi infinite loops miketebda relationshipis gamo
     private Basket basket;
 
     @ManyToOne

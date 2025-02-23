@@ -1,5 +1,6 @@
 package com.commerces.commerces.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,8 @@ public class Basket {
     private User user; //anu kalata konkretul users ekutvnis
     // onetoone imistvis rom ert users erti kalata aqvs
 
-    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference //json responshi infinite loops miketebda relationshipis gamo
     //erti cali basketi sheicavs sxvadasva products amitom minda onetomany
     private List<BasketItem> basketItems;
 

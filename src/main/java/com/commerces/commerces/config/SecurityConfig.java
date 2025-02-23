@@ -51,6 +51,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/products/**").authenticated() // Require authentication to add a product
                         .requestMatchers(HttpMethod.PUT, "/api/products/**").authenticated() // Require authentication to update a product
                         .requestMatchers(HttpMethod.DELETE, "/api/products/**").authenticated() // Require authentication to delete a product
+                        .requestMatchers("/api/basket/**").permitAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
