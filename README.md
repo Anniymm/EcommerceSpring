@@ -29,9 +29,16 @@ Follow these steps to set up the project locally:
 Configure your `application.properties` or `application.yml` inside `src/main/resources/`:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/ecommerce
-spring.datasource.username=yourusername
-spring.datasource.password=yourpassword
+# PostgreSQL Configuration
+spring.datasource.url=jdbc:postgresql://localhost:5432/ecommerce
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Hibernate Dialect for PostgreSQL
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+
+# Hibernate settings
 spring.jpa.hibernate.ddl-auto=update
 ```
 ## Run the Application
